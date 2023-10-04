@@ -141,6 +141,94 @@ abstract class BetterPlayerControlsState<T extends StatefulWidget>
     }
   }
 
+  static const playbackSpeedValues = [
+    0.25,
+    0.5,
+    0.75,
+    1.0,
+    1.25,
+    1.5,
+    1.75,
+    2.0,
+  ];
+
+  GestureDetector buildMaterialPlaybackSpeedText(
+    bool hideStuff,
+    void Function() onPlayerHide,
+  ) {
+    final value = betterPlayerController!.videoPlayerController!.value.speed;
+
+    return GestureDetector(
+      onTap: () {
+        changePlaybackSpeed(value);
+      },
+      child: AnimatedOpacity(
+        opacity: hideStuff ? 0.0 : 1.0,
+        duration: betterPlayerControlsConfiguration.controlsHideTime,
+        onEnd: onPlayerHide,
+        child: Container(
+            height: betterPlayerControlsConfiguration.controlBarHeight,
+            padding: EdgeInsets.all(8),
+            alignment: Alignment.center,
+            child: Text(
+              "${value}x",
+              style: _getSpeedTextStyle(
+                  betterPlayerControlsConfiguration.iconsColor),
+            )),
+      ),
+    );
+  }
+
+  GestureDetector buildCupertinoPlaybackSpeedText(
+    Color backgroundColor,
+    Color textColor,
+    double barHeight,
+    double buttonPadding, {
+    void Function()? onPlayerHide,
+  }) {
+    final value = betterPlayerController!.videoPlayerController!.value.speed;
+
+    return GestureDetector(
+      onTap: () {
+        changePlaybackSpeed(value);
+      },
+      child: AnimatedOpacity(
+        opacity: controlsNotVisible ? 0.0 : 1.0,
+        duration: betterPlayerControlsConfiguration.controlsHideTime,
+        onEnd: onPlayerHide,
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(10.0),
+          child: Container(
+            decoration: BoxDecoration(
+              color: backgroundColor,
+            ),
+            child: Container(
+                height: barHeight,
+                padding: EdgeInsets.symmetric(
+                  horizontal: buttonPadding,
+                ),
+                alignment: Alignment.center,
+                child: Text(
+                  "${value}x",
+                  style: _getSpeedTextStyle(textColor),
+                )),
+          ),
+        ),
+      ),
+    );
+  }
+
+  void changePlaybackSpeed(double value) {
+    final index = playbackSpeedValues.indexWhere((element) => element == value);
+    if (index + 1 < playbackSpeedValues.length) {
+      final speed = playbackSpeedValues[index + 1];
+      betterPlayerController!.setSpeed(speed);
+    } else {
+      final speed = playbackSpeedValues[0];
+      betterPlayerController!.setSpeed(speed);
+    }
+  }
+
   GestureDetector buildCupertinoPlaybackSpeedButton(
     Color backgroundColor,
     Color iconColor,
@@ -559,6 +647,13 @@ abstract class BetterPlayerControlsState<T extends StatefulWidget>
           ],
         ),
       ),
+    );
+  }
+
+  TextStyle _getSpeedTextStyle(Color textColor) {
+    return TextStyle(
+      fontWeight: FontWeight.bold,
+      color: textColor,
     );
   }
 

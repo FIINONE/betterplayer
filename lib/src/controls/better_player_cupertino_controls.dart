@@ -525,11 +525,10 @@ class _BetterPlayerCupertinoControlsState
             const SizedBox(),
           const Spacer(),
           if (_controlsConfiguration.enablePlaybackSpeed)
-            buildCupertinoPlaybackSpeedButton(
+            buildCupertinoPlaybackSpeedText(
               backgroundColor,
               iconColor,
               barHeight,
-              iconSize,
               buttonPadding,
             )
           else
