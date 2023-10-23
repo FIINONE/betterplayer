@@ -478,6 +478,37 @@ abstract class BetterPlayerControlsState<T extends StatefulWidget>
   ///Track selection is used for HLS / DASH videos
   ///Resolution selection is used for normal videos
   void _showQualitiesSelectionWidget() {
+    showModalBottomSheet<void>(
+      backgroundColor: Colors.transparent,
+      context: context,
+      useRootNavigator:
+          betterPlayerController?.betterPlayerConfiguration.useRootNavigator ??
+              false,
+      builder: (context) {
+        final children = _createQualitiesSelectionWidget();
+        return SafeArea(
+          top: false,
+          child: SingleChildScrollView(
+            physics: const BouncingScrollPhysics(),
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
+              decoration: BoxDecoration(
+                color: betterPlayerControlsConfiguration.overflowModalColor,
+                borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(24.0),
+                    topRight: Radius.circular(24.0)),
+              ),
+              child: Column(
+                children: children,
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  List<Widget> _createQualitiesSelectionWidget() {
     // HLS / DASH
     final List<String> asmsTrackNames =
         betterPlayerController!.betterPlayerDataSource!.asmsTrackNames ?? [];
@@ -513,7 +544,7 @@ abstract class BetterPlayerControlsState<T extends StatefulWidget>
       );
     }
 
-    _showModalBottomSheet(children);
+    return children;
   }
 
   Widget _buildTrackRow(BetterPlayerAsmsTrack track, String? preferredName) {
