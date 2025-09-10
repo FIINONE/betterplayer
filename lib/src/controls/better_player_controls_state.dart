@@ -147,19 +147,20 @@ abstract class BetterPlayerControlsState<T extends StatefulWidget>
       builder: (context, show, child) {
         if (show) {
           return Container(
-              height: betterPlayerControlsConfiguration.controlBarHeight,
               decoration: BoxDecoration(
-                color: Color(0xE0141416)
+                color: Color(0xE0141416),
+                borderRadius: BorderRadius.circular(100),
               ),
               padding: EdgeInsets.symmetric(horizontal: 8, vertical: 2),
               alignment: Alignment.center,
               child: Row(
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
                     "2.0x",
-                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, height: 20 / 14),
+                    style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w600, height: 20 / 14),
                   ),
-                  Icon(Icons.fast_forward, size: 20)
+                  Icon(Icons.fast_forward, size: 20, color: Colors.white)
                 ],
               ),
           );
