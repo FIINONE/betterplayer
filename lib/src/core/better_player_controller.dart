@@ -210,6 +210,8 @@ class BetterPlayerController {
   ///Currently displayed [BetterPlayerSubtitle].
   BetterPlayerSubtitle? renderedSubtitle;
 
+  final show2xListenable = ValueNotifier(false);
+
   BetterPlayerController(
     this.betterPlayerConfiguration, {
     this.betterPlayerPlaylistConfiguration,
@@ -1307,6 +1309,7 @@ class BetterPlayerController {
       _videoEventStreamSubscription?.cancel();
       _disposed = true;
       _controllerEventStreamController.close();
+      show2xListenable.dispose();
 
       ///Delete files async
       _tempFiles.forEach((file) => file.delete());

@@ -141,6 +141,35 @@ abstract class BetterPlayerControlsState<T extends StatefulWidget>
     }
   }
 
+  Widget build2x() {
+    return ValueListenableBuilder(
+      valueListenable: betterPlayerController!.show2xListenable,
+      builder: (context, show, child) {
+        if (show) {
+          return Container(
+              height: betterPlayerControlsConfiguration.controlBarHeight,
+              decoration: BoxDecoration(
+                color: Color(0xE0141416)
+              ),
+              padding: EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+              alignment: Alignment.center,
+              child: Row(
+                children: [
+                  Text(
+                    "2.0x",
+                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, height: 20 / 14),
+                  ),
+                  Icon(Icons.fast_forward, size: 20)
+                ],
+              ),
+          );
+        }
+
+        return SizedBox();
+      },
+    );
+  }
+
   static const playbackSpeedValues = [
     0.5,
     1.0,
