@@ -129,6 +129,16 @@ class _BetterPlayerCupertinoControlsState
           BetterPlayerMultipleGestureDetector.of(context)!.onLongPress?.call();
         }
       },
+      onLongPressCancel: () {
+        if (BetterPlayerMultipleGestureDetector.of(context) != null) {
+          BetterPlayerMultipleGestureDetector.of(context)!.onLongPressCancel?.call();
+        }
+      },
+      onLongPressEnd: (details) {
+        if (BetterPlayerMultipleGestureDetector.of(context) != null) {
+          BetterPlayerMultipleGestureDetector.of(context)!.onLongPressEnd?.call();
+        }
+      },
       child: AbsorbPointer(
           absorbing: controlsNotVisible,
           child:

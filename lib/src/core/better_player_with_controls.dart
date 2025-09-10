@@ -298,29 +298,17 @@ class _BetterPlayerVideoFitWidgetState
   @override
   Widget build(BuildContext context) {
     if (_initialized && _started) {
-      return GestureDetector(
-        onLongPress: () {
-          if (controller?.value.speed == 2.0) return;
-          controller!.setSpeed(2.0);
-        },
-        onLongPressCancel: () {
-          controller!.setSpeed(1.0);
-        },
-        onLongPressEnd: (details) {
-          controller!.setSpeed(1.0);
-        },
-        child: Center(
-          child: ClipRect(
-            child: Container(
-              width: double.infinity,
-              height: double.infinity,
-              child: FittedBox(
-                fit: widget.boxFit,
-                child: SizedBox(
-                  width: controller!.value.size?.width ?? 0,
-                  height: controller!.value.size?.height ?? 0,
-                  child: VideoPlayer(controller),
-                ),
+      return Center(
+        child: ClipRect(
+          child: Container(
+            width: double.infinity,
+            height: double.infinity,
+            child: FittedBox(
+              fit: widget.boxFit,
+              child: SizedBox(
+                width: controller!.value.size?.width ?? 0,
+                height: controller!.value.size?.height ?? 0,
+                child: VideoPlayer(controller),
               ),
             ),
           ),
