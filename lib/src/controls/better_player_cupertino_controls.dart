@@ -92,6 +92,7 @@ class _BetterPlayerCupertinoControlsState
     _wasLoading = isLoading(_latestValue);
     final controlsColumn = Column(children: <Widget>[
       Stack(
+        clipBehavior: Clip.none,
         children: [
           _buildTopBar(
             backgroundColor,
