@@ -100,7 +100,7 @@ class _BetterPlayerCupertinoControlsState
             barHeight,
             buttonPadding,
           ),
-          Positioned(top: 44, left: 0, right: 0, child: build2x()),
+          Positioned(top: isFullScreen ? 28 : 5, left: 0, right: 0, child: build2x()),
         ],
       ),
       if (_wasLoading)
