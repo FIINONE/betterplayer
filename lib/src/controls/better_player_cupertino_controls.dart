@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 import 'package:better_player/src/configuration/better_player_controls_configuration.dart';
 import 'package:better_player/src/controls/better_player_controls_state.dart';
 import 'package:better_player/src/controls/better_player_cupertino_progress_bar.dart';
@@ -155,24 +154,19 @@ class _BetterPlayerCupertinoControlsState
         }
       },
       onLongPressMoveUpdate: (details) {
-        final upSpeed = (details.offsetFromOrigin.dx / 100).toStringAsFixed(1);
-        log('details.offsetFromOrigin ${details.offsetFromOrigin} ${upSpeed}');
-        if (details.offsetFromOrigin.dx.isNegative) {
-          if (_betterPlayerController?.videoPlayerController?.value.speed == 1.0) return;
-          _betterPlayerController?.setSpeed(1.0);
-          _betterPlayerController?.show2xListenable.value = 1.0;
-          return;
-        }
-
-
         if (_betterPlayerController?.isFullScreen ?? false) {
+          final upSpeed = (details.offsetFromOrigin.dx / 100).toStringAsFixed(1);
+          if (details.offsetFromOrigin.dx.isNegative) {
+            if (_betterPlayerController?.videoPlayerController?.value.speed == 1.0) return;
+            _betterPlayerController?.setSpeed(1.0);
+            _betterPlayerController?.show2xListenable.value = 1.0;
+            return;
+          }
+
           try {
             _betterPlayerController?.setSpeed(1.0 + double.parse(upSpeed));
             _betterPlayerController?.show2xListenable.value = 1.0 + double.parse(upSpeed);
-          } catch (e, t) {
-            log('$e');
-            log('$t');
-          }
+          } catch (_) {}
         }
       },
       child: AbsorbPointer(

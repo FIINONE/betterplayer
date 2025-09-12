@@ -90,6 +90,10 @@ class _BetterPlayerMaterialControlsState
         if (BetterPlayerMultipleGestureDetector.of(context) != null) {
           BetterPlayerMultipleGestureDetector.of(context)!.onLongPress?.call();
         }
+        if (_betterPlayerController?.isFullScreen ?? false) {
+          _betterPlayerController?.setSpeed(1.0);
+          _betterPlayerController?.show2xListenable.value = 1.0;
+        }
       },
       onLongPressCancel: () {
         if (BetterPlayerMultipleGestureDetector.of(context) != null) {
@@ -99,6 +103,26 @@ class _BetterPlayerMaterialControlsState
       onLongPressEnd: (details) {
         if (BetterPlayerMultipleGestureDetector.of(context) != null) {
           BetterPlayerMultipleGestureDetector.of(context)!.onLongPressEnd?.call();
+        }
+        if (_betterPlayerController?.isFullScreen ?? false) {
+          _betterPlayerController?.setSpeed(1.0);
+          _betterPlayerController?.show2xListenable.value = null;
+        }
+      },
+      onLongPressMoveUpdate: (details) {
+        if (_betterPlayerController?.isFullScreen ?? false) {
+          final upSpeed = (details.offsetFromOrigin.dx / 100).toStringAsFixed(1);
+          if (details.offsetFromOrigin.dx.isNegative) {
+            if (_betterPlayerController?.videoPlayerController?.value.speed == 1.0) return;
+            _betterPlayerController?.setSpeed(1.0);
+            _betterPlayerController?.show2xListenable.value = 1.0;
+            return;
+          }
+
+          try {
+            _betterPlayerController?.setSpeed(1.0 + double.parse(upSpeed));
+            _betterPlayerController?.show2xListenable.value = 1.0 + double.parse(upSpeed);
+          } catch (_) {}
         }
       },
       child: AbsorbPointer(
