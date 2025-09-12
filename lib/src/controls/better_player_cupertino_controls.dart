@@ -135,8 +135,10 @@ class _BetterPlayerCupertinoControlsState
         if (BetterPlayerMultipleGestureDetector.of(context) != null) {
           BetterPlayerMultipleGestureDetector.of(context)!.onLongPress?.call();
         }
-        _betterPlayerController?.setSpeed(1.0);
-        _betterPlayerController?.show2xListenable.value = 1.0;
+        if (_betterPlayerController?.isFullScreen ?? false) {
+          _betterPlayerController?.setSpeed(1.0);
+          _betterPlayerController?.show2xListenable.value = 1.0;
+        }
       },
       onLongPressCancel: () {
         if (BetterPlayerMultipleGestureDetector.of(context) != null) {
@@ -147,8 +149,10 @@ class _BetterPlayerCupertinoControlsState
         if (BetterPlayerMultipleGestureDetector.of(context) != null) {
           BetterPlayerMultipleGestureDetector.of(context)!.onLongPressEnd?.call();
         }
-        _betterPlayerController?.setSpeed(1.0);
-        _betterPlayerController?.show2xListenable.value = null;
+        if (_betterPlayerController?.isFullScreen ?? false) {
+          _betterPlayerController?.setSpeed(1.0);
+          _betterPlayerController?.show2xListenable.value = null;
+        }
       },
       onLongPressMoveUpdate: (details) {
         final upSpeed = (details.offsetFromOrigin.dx / 100).toStringAsFixed(1);
@@ -156,14 +160,19 @@ class _BetterPlayerCupertinoControlsState
         if (details.offsetFromOrigin.dx.isNegative) {
           if (_betterPlayerController?.videoPlayerController?.value.speed == 1.0) return;
           _betterPlayerController?.setSpeed(1.0);
+          _betterPlayerController?.show2xListenable.value = 1.0;
           return;
         }
-        try {
-          _betterPlayerController?.setSpeed(1.0 + double.parse(upSpeed));
-          _betterPlayerController?.show2xListenable.value = 1.0 + double.parse(upSpeed);
-        } catch (e, t) {
-          log('$e');
-          log('$t');
+
+
+        if (_betterPlayerController?.isFullScreen ?? false) {
+          try {
+            _betterPlayerController?.setSpeed(1.0 + double.parse(upSpeed));
+            _betterPlayerController?.show2xListenable.value = 1.0 + double.parse(upSpeed);
+          } catch (e, t) {
+            log('$e');
+            log('$t');
+          }
         }
       },
       child: AbsorbPointer(
