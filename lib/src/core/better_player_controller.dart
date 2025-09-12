@@ -210,7 +210,7 @@ class BetterPlayerController {
   ///Currently displayed [BetterPlayerSubtitle].
   BetterPlayerSubtitle? renderedSubtitle;
 
-  final show2xListenable = ValueNotifier(false);
+  final show2xListenable = ValueNotifier<double?>(null);
 
   BetterPlayerController(
     this.betterPlayerConfiguration, {
