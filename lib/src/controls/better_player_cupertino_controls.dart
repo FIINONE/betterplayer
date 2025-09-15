@@ -135,8 +135,8 @@ class _BetterPlayerCupertinoControlsState
           BetterPlayerMultipleGestureDetector.of(context)!.onLongPress?.call();
         }
         if (_betterPlayerController?.isFullScreen ?? false) {
-          _betterPlayerController?.setSpeed(1.0);
-          _betterPlayerController?.show2xListenable.value = 1.0;
+          _betterPlayerController?.setSpeed(2.0);
+          _betterPlayerController?.show2xListenable.value = 2.0;
         }
       },
       onLongPressCancel: () {
@@ -154,20 +154,7 @@ class _BetterPlayerCupertinoControlsState
         }
       },
       onLongPressMoveUpdate: (details) {
-        if (_betterPlayerController?.isFullScreen ?? false) {
-          final upSpeed = (details.offsetFromOrigin.dx / 100).toStringAsFixed(1);
-          if (details.offsetFromOrigin.dx.isNegative) {
-            if (_betterPlayerController?.videoPlayerController?.value.speed == 1.0) return;
-            _betterPlayerController?.setSpeed(1.0);
-            _betterPlayerController?.show2xListenable.value = 1.0;
-            return;
-          }
-
-          try {
-            _betterPlayerController?.setSpeed(1.0 + double.parse(upSpeed));
-            _betterPlayerController?.show2xListenable.value = 1.0 + double.parse(upSpeed);
-          } catch (_) {}
-        }
+        on2xLongPressMoveUpdate(details);
       },
       child: AbsorbPointer(
           absorbing: controlsNotVisible,

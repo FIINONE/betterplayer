@@ -140,6 +140,20 @@ abstract class BetterPlayerControlsState<T extends StatefulWidget>
     }
   }
 
+  void on2xLongPressMoveUpdate(LongPressMoveUpdateDetails details) {
+    if (betterPlayerController?.isFullScreen ?? false) {
+      final upSpeed = (details.offsetFromOrigin.dx / 100).toStringAsFixed(1);
+
+      try {
+        var speed = 2.0 + double.parse(upSpeed);
+        speed = speed >= 3.0 ? 3.0 : speed <= 1.0 ? 1.0 : speed;
+
+        betterPlayerController?.setSpeed(speed);
+        betterPlayerController?.show2xListenable.value = speed;
+      } catch (_) {}
+    }
+  }
+
   Widget build2x() {
     return ValueListenableBuilder(
       valueListenable: betterPlayerController!.show2xListenable,
@@ -149,25 +163,32 @@ abstract class BetterPlayerControlsState<T extends StatefulWidget>
         return Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Center(
-              child: Container(
-                  decoration: BoxDecoration(
-                    color: Color(0xE0141416),
-                    borderRadius: BorderRadius.circular(100),
-                  ),
-                  padding: EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-                  alignment: Alignment.center,
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        "${speed}x",
-                        style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w600, height: 20 / 14),
+            Column(
+              children: [
+                Center(
+                  child: Container(
+                      decoration: BoxDecoration(
+                        color: Color(0xE0141416),
+                        borderRadius: BorderRadius.circular(100),
                       ),
-                      Icon(Icons.fast_forward, size: 20, color: Colors.white)
-                    ],
+                      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                      alignment: Alignment.center,
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            "${speed}x",
+                            style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w600, height: 20 / 14),
+                          ),
+                          Icon(Icons.fast_forward, size: 20, color: Colors.white)
+                        ],
+                      ),
                   ),
-              ),
+                ),
+                SizedBox(height: 8),
+                Text('Swipe sideways to adjust speed', style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w500, height: 20 / 14)),
+                Icon(Icons.swipe, size: 25, color: Colors.white),
+              ],
             ),
           ],
         );
